@@ -65,3 +65,62 @@ Use for:
 
 - Fetching data
 - Initial setup
+
+## 3.2 `ngOnChanges`
+
+```ts
+ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+}
+```
+
+Runs when:
+- `@Input()` value changes
+
+## 3.3 `ngOnDestroy`
+
+```ts
+ngOnDestroy(){
+    this.subscription.unsubsribe();
+}
+```
+
+Use for:
+- Cleanup
+- Preventing memory leaks
+
+## 4. Component Communication (CRUCIAL)
+
+## 4.1 Parent -> Child (`@Input`)
+
+```ts
+Parent -> Child (`@Input`)
+```
+
+```html
+<app-child [username]="name"></app-child>
+```
+
+## 4.2 Child -> Parent (`@Output`)
+
+```ts
+@Output() notify = new EventEmitter<string>();
+
+sendData(){
+    this.notify.emit('Hello Parent');
+}
+```
+
+```html
+<app-child (notify)="onNotify($event)"></app-child>
+```
+
+## 4.3 ViewChild
+
+```ts
+@ViewChild('inputRef') input!: ElementRef;
+```
+
+Used to:
+- Access child component or DOM element
+
