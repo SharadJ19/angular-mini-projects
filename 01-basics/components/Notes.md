@@ -124,3 +124,74 @@ sendData(){
 Used to:
 - Access child component or DOM element
 
+## 5. Component vs Directive vs Pipe
+
+| Feature | Component | Directive | Pipe |
+|---------|-----------|-----------|------|
+| Template | Yes | No | No |
+| DOM Control | Yes | Yes | No |
+| Data Transform | No | No | Yes | 
+
+
+## 6. Smart vs Dumb Components
+
+### Smart (Container)
+
+- Handles logic
+- API calls 
+- State management
+
+### Dumb (Presentational)
+
+- Only UI
+- Uses `@Input` and `@Output`
+
+Dumb components improve reusability and testability.
+
+## 7. Change Detection in Components
+
+### Default Strategy 
+
+- Runs on every event
+
+### OnPush Strategy
+
+```ts
+changeDetection: ChangeDetectionStrategy.OnPush
+```
+
+Triggers only when:
+
+- `@Input()` reference changes
+- Event inside component
+- Observable emits
+
+OnPush improves performance by reducing change detection cycles.
+
+## 8. Component Styling
+
+### View Encapsulation
+
+```ts
+encapsulation: ViewEncapsulation.Emulated
+```
+
+Types:
+
+- Emulated(default)
+- None
+- ShadowDom
+
+## 9. Common Pitfalls
+
+- Putting logic in template
+- Not unsubscribing from observables
+- Overusing two-way binding
+- Not using OnPush for large apps
+
+## 10. Interview Questions
+
+1. Difference bw constructor and `ngOnInit`
+2. Why EventEmitter is not for services
+3. When to use OnPush
+4. How Angular destroys components
