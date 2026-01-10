@@ -195,3 +195,17 @@ Benefits:
 - Cleaner code
 
 Async pipe handles subscription lifecycle automatically.
+
+## 10. Common Pitfalls
+
+- Using pipes for business logic
+- Using impure pipes unnecesarrily
+- Mutating arrays with pure pipes
+- Heavy computation inside pipes
+
+## Interview Questions
+
+1. Difference bw pure and impure pipes
+2. Why methods in templates are bad
+3. How async pipe prevents memory leaks
+4. When NOT to use pipes
