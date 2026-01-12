@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Notes</h2>
+
+  <input
+    type="text"
+    [(ngModel)]="title"
+    placeholder="Title"
+  />
+
+  <textarea
+    [(ngModel)]="content"
+    placeholder="Write your note..."
+  ></textarea>
+
+  <button (click)="addNote()">Add Note</button>
+
+  <div class="notes-list">
+    <div class="note" *ngFor="let note of notes">
+      <div class="note-header">
+        <strong>{{ note.title }}</strong>
+        <button class="delete" (click)="delete(note)">✕</button>
+      </div>
+
+      <p>{{ note.content }}</p>
+      <small>{{ note.createdAt | date:'short' }}</small>
+    </div>
+  </div>
+</div>
