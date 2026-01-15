@@ -73,3 +73,81 @@ export class AppModule {}
 Key Point:
 
 `router-outlet` is where routed components load.
+
+## 5. Navigating bw Routes
+
+### 5.1 RouterLink (Preferred)
+
+```html
+<a routerLink="/about">About</a>
+```
+
+With active class:
+```html
+<a routerLink="/about" routerLinkActive>About</a>
+```
+
+### 5.2 Programmatic Navigation
+
+```ts
+constructor(private router: Router){}
+
+goToAbout(){
+    this.router.navigate(['/about']);
+}
+```
+
+Used when navigation depend on logic.
+
+## 6. Route Parameters
+
+
+### 6.1 Define Route with Param
+
+```ts
+{ path: 'user/:id', component: UserComponent }
+```
+
+### 6.2 Read Param
+
+```ts
+constructor (private route: ActivatedRoute) {}
+ngOnInit(){
+    this.route.params.subscribe(params=>{
+        console.log(params['id']);
+    });
+}
+```
+
+Alternate(snapshot):
+
+```ts
+const id = this.route.snapshot.paramMap.get('id');
+```
+
+Comparision:
+`snapshot` ->  one-time
+`params` -> reacts to changes
+
+## 7. Query Parameters
+
+### Navigation
+
+```ts
+this.router.navigate(['user'], {
+    queryParams: {page:1}
+});
+```
+
+### Reading
+
+```ts
+this.route.queryParams.subscribe(params => 
+{
+    console.log(params['page']);
+});
+```
+
+Difference:
+Route params are mandatory, query params are optional.
+
