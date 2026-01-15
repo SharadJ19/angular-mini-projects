@@ -151,3 +151,107 @@ this.route.queryParams.subscribe(params =>
 Difference:
 Route params are mandatory, query params are optional.
 
+## 8. Redirects and Wildcards
+
+### Redirect
+
+```ts
+{   path: '', redirectTo:'/home',
+    pathMatch:'full'
+}
+```
+
+Why pathMatch: 'full'?
+
+Prevents partial matching bugs.
+
+
+## 9. Wildcard Route (404)
+
+```ts
+{path: '**', component:NotFoundComponent }
+```
+
+Must be **last route**.
+
+## 9. Nested (Child) Routes
+
+### Routes
+
+```ts
+{
+    path:'admin',
+    component: AdminComponent,
+    children: [
+        {path: 'users', component:UsersComponent},
+        {path: 'settings', component:SettingsComponent}
+    ]
+}
+```
+
+### Template
+
+```html
+<router-outlet> </router-outlet>
+```
+
+URL:
+```bash
+/admin/users
+```
+
+## 10. Lazy Loading (Intro Level)
+
+### Why Lazy Loading
+
+- Reduce initial bundle size
+- Improves app load time
+
+### Syntax
+
+```ts
+{
+    path:'admin',
+    loadChildren: () => import('.admin/admin.module').then(m => m.AdminModule)
+}
+```
+
+Lazy Loading loads modules only when needed.
+
+## 11. Router Events (Too basic)
+
+```ts
+this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd){
+        console.log('Navigation done');
+    }
+});
+```
+
+Used for:
+- Analytics
+- Loading Indicators
+
+## 12. Common Pitfalls
+
+- Forgetting <router-outlet>
+- Wrong route order (wildcard above others)
+- Missing pathMatch: 'full'
+- Subscribing to params without unsubscribing (use async pipe or snapshot where possible)
+
+## 13. Interview Questions
+
+1. Difference bw `routerLink` and `href` ? 
+  A. `routerLink` prevents page reload.
+2. forRoot vs forChild
+  A. forRoot -> root module, forChild -> feature modules
+3. How Angular know which component to load ?
+  A. Via route configuration mapping path to component
+
+
+## 14. Big Picture Flow
+
+1. URL Changes
+2. Router matches route
+3. Component instantiated
+4. Rendered inside `router-outlet`
