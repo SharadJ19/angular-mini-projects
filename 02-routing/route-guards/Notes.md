@@ -171,3 +171,63 @@ export class AdminLoadGuard implements CanLoad {
 ```
 
 CanLoad prevents the module bundle from even downloading.
+
+## 9. Resolve (Data Before Route Load)
+
+Purpose:
+Fetches data before component loads.
+
+```ts
+@Injectable({ providedIn:'root'})
+export class UserResolver implements Resolve<User>{
+
+    resolve(): Observable<User>{
+        return this.userService.getUser();
+    }
+}
+```
+
+```ts
+{
+    path: 'profile',
+    component: ProfileComponent,
+    resolve: { user: UserResolver }
+}
+```
+
+Access data:
+
+```ts
+this.route.data.subscribe(data=>{
+    console.log(data['user']);
+});
+```
+
+Resolve ensures data is ready before rendering.
+
+## 10. Guard Execution Order
+
+1. CanLoad
+2. CanActivate
+3. CanActivateChild
+4. Resolve
+5. Component Init
+6. CanDeactivate (on exit)
+
+## 11. Common Pitfalls
+
+- Using CanActivate instead of CanLoad for lazy modules
+- Forgetting to return boolean/observable
+- Heavy logic inside guards
+- API calls without caching
+
+## 12. Interview Rapid Q&A
+
+Q: CanActivate vs CanLoad
+A: CanLoad prevents module download, CanActivate blocks navigation
+
+Q: CanDeactivate use case
+A: Prevent losing unsaved changes.
+
+Q: Can guards be async
+A: Yes, observables and promises.
