@@ -82,3 +82,92 @@ Angular waits for:
 - Observable<boolean>
 - Promise<boolean>
 
+## 6. CanActivateChild
+
+### Purpose
+
+Protects child routes.
+```ts
+{ 
+    path: 'admin',
+    component: AdminComponent,
+    canActivateChild: [AuthGuard],
+    children: [
+        { path: 'users', component: UsersComponent},
+        { path: 'settings', component: SettingsComponent}
+    ]
+}
+```
+
+Avoid repeating CanActivate on each child route.
+
+## 7. CanDeactivate (Prevent Leaving)
+
+Purpose:
+Prevents navigation away from a route.
+
+Use Case:
+Unsaved form data
+
+### Step 1: Create Interface
+
+```ts
+export interface CanComponentDeactivate {
+    canDeactivate: ()=> boolean;
+}
+```
+
+### Step 2: Guard
+
+```ts
+@Injectable({ providedIn: 'root' })
+export class UnsavedGuard
+    implements CanDeactivate<CanComponentDeactivate> {
+        canDeactivate(component:CanComponentDeactivate): boolean {
+            return component.canDeactivate()
+            ? true
+            : confirm('You have unsaved changes. Leave?');
+        }
+}
+```
+
+### Step 3: Component
+
+```ts
+canDeactivate(): boolean {
+    return !this.isFormDirty;
+}
+```
+
+### Step 4: Apply
+
+```ts
+path: 'edit',
+component: EditComponent,
+canDeactivate: [UnsavedGuard]
+```
+
+## 8. CanLoad (Lazy Loading Protection)
+
+Purpose:
+Prevents lazy-loaded modules from loading.
+
+```ts
+@Injectable({ providedIn: 'root' })
+export class AdminLoadGuard implements CanLoad {
+
+    canLoad(): boolean {
+        return this.authService.isAdmin();
+    }
+}
+```
+
+```ts
+{
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m=>m.AdminModule),
+    canLoad: [AdminLoadGuard]
+}
+```
+
+CanLoad prevents the module bundle from even downloading.
