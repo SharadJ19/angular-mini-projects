@@ -231,3 +231,10 @@ A: Prevent losing unsaved changes.
 
 Q: Can guards be async
 A: Yes, observables and promises.
+
+## 13. Real-World Auth Guard Flow
+
+1. User hits protected route
+2. Guard checks token
+3. If invalid -> redirect to login
+4. If valid -> allow navigation
